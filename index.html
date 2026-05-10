@@ -57,10 +57,27 @@ body {
 .screen.active { display: flex; animation: slideUp .3s ease; }
 @keyframes slideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
 
+/* Home screen khusus - scrollable */
+#s-home {
+  overflow-y: auto !important;
+  padding-bottom: 16px !important;
+}
+#s-home .photo-slider {
+  padding: 10px 22px 0;
+}
+#s-home .photo-slide {
+  width: calc(100vw - 80px);
+  height: calc(100vw - 80px);
+  max-width: 300px;
+  max-height: 300px;
+}
+#s-home .slider-dots {
+  padding: 6px 0 8px;
+  flex-shrink: 0;
+}
+
 /* ── SCROLLBAR ── */
 .screen::-webkit-scrollbar { width: 0; }
-
-/* ── BOTTOM NAV ── */
 .bottom-nav {
   display: flex; align-items: center;
   padding: 10px 6px 20px;
@@ -358,11 +375,15 @@ body {
 .photo-slide {
   flex-shrink: 0;
   width: calc(100vw - 44px);
+  height: calc(100vw - 44px);
   max-width: 386px;
-  aspect-ratio: 1 / 1;
+  max-height: 386px;
   border-radius: 16px; overflow: hidden;
   border: 1px solid var(--border); background: var(--dark2);
   scroll-snap-align: center;
+  cursor: pointer;
+  position: relative; transition: border-color .2s;
+}
   cursor: pointer;
   position: relative; transition: border-color .2s;
 }
@@ -377,7 +398,21 @@ body {
   width: 100%; height: 100%; object-fit: cover;
   position: absolute; inset: 0; display: none;
 }
-/* Slider dots */
+/* Slider wrap with prev/next */
+.slider-wrap {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px 0;
+}
+.slider-nav {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: var(--dark3); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--sub); transition: all .18s;
+}
+.slider-nav:hover { border-color: var(--gold); color: var(--gold); }
+.slider-wrap .photo-slider {
+  flex: 1; padding: 0; gap: 8px;
+}
 .slider-dots {
   display: flex; justify-content: center; gap: 6px;
   padding: 8px 0 2px;
@@ -422,6 +457,32 @@ body {
   border: 1px solid rgba(0,255,136,0.2);
 }
 .chart-body { padding: 0 14px 14px; }
+
+/* Weekly profit */
+.weekly-profit-body {
+  padding: 0 18px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.wp-number {
+  font-size: 72px; font-weight: 900; color: var(--gold);
+  letter-spacing: -.04em; line-height: 1;
+  text-shadow: 0 0 30px rgba(201,168,76,0.3);
+}
+.wp-sub {
+  font-size: 12px; color: var(--sub); font-weight: 500; margin-bottom: 10px;
+}
+.wp-row {
+  display: flex; align-items: center; gap: 0;
+  width: 100%; background: var(--dark3);
+  border-radius: 12px; border: 1px solid var(--border); overflow: hidden;
+}
+.wp-item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 4px; padding: 12px 8px;
+}
+.wp-val { font-size: 18px; font-weight: 800; color: var(--text); }
+.wp-lbl { font-size: 10px; color: var(--sub); font-weight: 500; }
+.wp-divider { width: 1px; height: 36px; background: var(--border); flex-shrink: 0; }
 
 /* ── TELEGRAM PAGE ── */
 .tg-wrap {
@@ -508,68 +569,67 @@ body {
         <div class="stat3"><span class="v3" id="sf">48</span><span class="l3" data-id="Copier" data-en="Copiers">Copier</span></div>
       </div>
 
-      <!-- Equity chart -->
+      <!-- Weekly profit card -->
       <div class="chart-card">
         <div class="chart-card-hd">
-          <span class="chart-title" data-id="Equity Curve" data-en="Equity Curve">Equity Curve</span>
-          <span class="chart-badge" data-id="+8.4% bulan ini" data-en="+8.4% this month">+8.4% bulan ini</span>
+          <span class="chart-title" data-id="Profit Minggu Ini" data-en="This Week's Profit">Profit Minggu Ini</span>
+          <span class="chart-badge" data-id="● Live" data-en="● Live">● Live</span>
         </div>
-        <div class="chart-body">
-          <svg viewBox="0 0 340 140" preserveAspectRatio="none" style="width:100%;height:140px;">
-            <defs>
-              <linearGradient id="eg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.28"/>
-                <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <path id="eq-area" fill="url(#eg)"/>
-            <path id="eq-line" fill="none" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <div class="weekly-profit-body">
+          <div class="wp-number">+8.4%</div>
+          <div class="wp-sub" data-id="dari modal yang di-copy" data-en="from copied capital">dari modal yang di-copy</div>
+          <div class="wp-row">
+            <div class="wp-item">
+              <span class="wp-val pos">31</span>
+              <span class="wp-lbl" data-id="Total Trade" data-en="Total Trades">Total Trade</span>
+            </div>
+            <div class="wp-divider"></div>
+            <div class="wp-item">
+              <span class="wp-val" style="color:var(--neon)">74%</span>
+              <span class="wp-lbl" data-id="Win Rate" data-en="Win Rate">Win Rate</span>
+            </div>
+            <div class="wp-divider"></div>
+            <div class="wp-item">
+              <span class="wp-val" style="color:var(--red)">26%</span>
+              <span class="wp-lbl" data-id="Loss Rate" data-en="Loss Rate">Loss Rate</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Photo slider - 1 besar per slide -->
-      <div class="photo-slider" id="photoSlider">
-        <div class="photo-slide" onclick="document.getElementById('fi0').click()">
-          <input type="file" id="fi0" accept="image/*" style="display:none" onchange="loadImg(this,0)">
-          <div class="slide-ph" id="ph0">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Tap untuk upload foto</span>
+      <!-- Photo slider dengan tombol prev/next -->
+      <div class="slider-wrap">
+        <button class="slider-nav prev" onclick="prevSlide()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="photo-slider" id="photoSlider">
+          <div class="photo-slide">
+            <img class="slide-img" src="https://i.imgur.com/3KCCUkE.jpeg" style="display:block;">
           </div>
-          <img id="si0" class="slide-img">
-        </div>
-        <div class="photo-slide" onclick="document.getElementById('fi1').click()">
-          <input type="file" id="fi1" accept="image/*" style="display:none" onchange="loadImg(this,1)">
-          <div class="slide-ph" id="ph1">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Tap untuk upload foto</span>
+          <div class="photo-slide" onclick="document.getElementById('fi1').click()">
+            <input type="file" id="fi1" accept="image/*" style="display:none" onchange="loadImg(this,1)">
+            <div class="slide-ph" id="ph1"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Upload foto</span></div>
+            <img id="si1" class="slide-img">
           </div>
-          <img id="si1" class="slide-img">
-        </div>
-        <div class="photo-slide" onclick="document.getElementById('fi2').click()">
-          <input type="file" id="fi2" accept="image/*" style="display:none" onchange="loadImg(this,2)">
-          <div class="slide-ph" id="ph2">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Tap untuk upload foto</span>
+          <div class="photo-slide" onclick="document.getElementById('fi2').click()">
+            <input type="file" id="fi2" accept="image/*" style="display:none" onchange="loadImg(this,2)">
+            <div class="slide-ph" id="ph2"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Upload foto</span></div>
+            <img id="si2" class="slide-img">
           </div>
-          <img id="si2" class="slide-img">
-        </div>
-        <div class="photo-slide" onclick="document.getElementById('fi3').click()">
-          <input type="file" id="fi3" accept="image/*" style="display:none" onchange="loadImg(this,3)">
-          <div class="slide-ph" id="ph3">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Tap untuk upload foto</span>
+          <div class="photo-slide" onclick="document.getElementById('fi3').click()">
+            <input type="file" id="fi3" accept="image/*" style="display:none" onchange="loadImg(this,3)">
+            <div class="slide-ph" id="ph3"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Upload foto</span></div>
+            <img id="si3" class="slide-img">
           </div>
-          <img id="si3" class="slide-img">
-        </div>
-        <div class="photo-slide" onclick="document.getElementById('fi4').click()">
-          <input type="file" id="fi4" accept="image/*" style="display:none" onchange="loadImg(this,4)">
-          <div class="slide-ph" id="ph4">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            <span>Tap untuk upload foto</span>
+          <div class="photo-slide" onclick="document.getElementById('fi4').click()">
+            <input type="file" id="fi4" accept="image/*" style="display:none" onchange="loadImg(this,4)">
+            <div class="slide-ph" id="ph4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Upload foto</span></div>
+            <img id="si4" class="slide-img">
           </div>
-          <img id="si4" class="slide-img">
         </div>
+        <button class="slider-nav next" onclick="nextSlide()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
       <!-- Dot indicators -->
       <div class="slider-dots" id="sliderDots">
@@ -580,7 +640,6 @@ body {
         <span class="dot-ind" onclick="scrollToSlide(4)"></span>
       </div>
 
-      <div style="height:16px;"></div>
     </div><!-- end home -->
 
     <!-- ══ PANDUAN ══ -->
@@ -593,7 +652,7 @@ body {
             <div style="font-size:14px;font-weight:800;">Bull Run Plus</div>
           </div>
         </div>
-        <h1 data-id="Cara Copy Bull Run Plus" data-en="How to Join|Bull Run Plus">Cara Copy<br><span style="color:var(--neon)">Bull Run Plus</span></h1>
+        <h1 data-id="Cara Ikut|Bull Run Plus" data-en="How to Join|Bull Run Plus">Cara Ikut<br><span style="color:var(--neon)">Bull Run Plus</span></h1>
         <p data-id="6 langkah mudah untuk mulai copy trading otomatis bersama saya di Bull Run Plus." data-en="6 easy steps to start automated copy trading with me on Bull Run Plus.">6 langkah mudah untuk mulai copy trading otomatis bersama saya di Bull Run Plus.</p>
       </div>
 
@@ -601,8 +660,8 @@ body {
         <div class="step-item">
           <div class="step-num">01</div>
           <div class="step-content">
-            <h4>Buat Akun</h4>
-            <p>Daftar akun trading gratis di Broker Internasional. Hanya butuh 3–5 menit untuk selesai.</p>
+            <h4>Buat Akun Bull Run Plus</h4>
+            <p>Daftar akun trading gratis di Bull Run Plus. Hanya butuh 3–5 menit untuk selesai.</p>
             <span class="step-tag" onclick="goTo('s-join')">→ Bergabung Sekarang</span>
           </div>
         </div>
@@ -617,7 +676,7 @@ body {
           <div class="step-num">03</div>
           <div class="step-content">
             <h4>Buka Copy Trading</h4>
-            <p>Login ke Akun Anda → pilih menu <b style="color:var(--neon2)">"Copy Trading"</b> di dashboard utama Anda.</p>
+            <p>Login ke Bull Run Plus → pilih menu <b style="color:var(--neon2)">"Copy Trading"</b> di dashboard utama Anda.</p>
           </div>
         </div>
         <div class="step-item">
@@ -631,7 +690,7 @@ body {
           <div class="step-num">05</div>
           <div class="step-content">
             <h4>Klik Copy & Atur Modal</h4>
-            <p>Tekan tombol <b>Copy</b> → atur modal awal. Disarankan mulai <b style="color:var(--gold)">$100–Unlimited</b>.</p>
+            <p>Tekan tombol <b>Copy</b> → atur modal awal. Disarankan mulai <b style="color:var(--gold)">$100–$500</b>.</p>
           </div>
         </div>
         <div class="step-item">
@@ -650,7 +709,7 @@ body {
           • Jangan investasikan dana yang tidak siap Anda kelola risikonya<br>
           • Copy trading tidak menjamin profit 100%<br>
           • Drawdown bisa terjadi di kondisi pasar volatile<br>
-          • Disarankan stop-copy jika drawdown melebihi 50%<br>
+          • Disarankan stop-copy jika drawdown melebihi 20%<br>
           • Diversifikasi — jangan taruh semua modal di satu trader
         </p>
       </div>
@@ -983,7 +1042,17 @@ function goTo(id) {
   if (n) document.getElementById(n).classList.add('active');
 }
 
-// Photo slider dots
+let currentSlide = 0;
+const totalSlides = 5;
+
+function nextSlide() {
+  currentSlide = Math.min(currentSlide + 1, totalSlides - 1);
+  scrollToSlide(currentSlide);
+}
+function prevSlide() {
+  currentSlide = Math.max(currentSlide - 1, 0);
+  scrollToSlide(currentSlide);
+}
 function scrollToSlide(idx) {
   const slider = document.getElementById('photoSlider');
   const slide = slider.querySelectorAll('.photo-slide')[idx];
@@ -1019,17 +1088,6 @@ function loadImg(input, idx) {
   };
   reader.readAsDataURL(file);
 }
-(function(){
-  const pts = [65,60,68,72,66,78,75,82,79,88,85,91,88,95,92,98,94,100,96,103,100,108,105,112];
-  const W=340, H=140, p=4;
-  const mn=Math.min(...pts)-5, mx=Math.max(...pts)+5;
-  const x=i=>(i/(pts.length-1))*(W-p*2)+p;
-  const y=v=>H-((v-mn)/(mx-mn))*(H-p*2)-p;
-  const ln=pts.map((v,i)=>`${i?'L':'M'}${x(i)},${y(v)}`).join(' ');
-  document.getElementById('eq-line').setAttribute('d', ln);
-  document.getElementById('eq-area').setAttribute('d', ln+` L${x(pts.length-1)},${H} L${x(0)},${H} Z`);
-})();
-
 // Counters
 function ac(el, target, pre, suf) {
   let c=0; const s=target/40;
