@@ -1089,11 +1089,13 @@ function loadImg(input, idx) {
   reader.readAsDataURL(file);
 }
 // Counters
-function ac(el, target, pre, suf) {
+function ac(el, target, pre, suf, thousands) {
   let c=0; const s=target/40;
   const t=setInterval(()=>{
     c=Math.min(c+s,target);
-    el.textContent=pre+Math.round(c)+suf;
+    let num = Math.round(c);
+    if (thousands) num = num.toLocaleString('id-ID');
+    el.textContent=pre+num+suf;
     if(c>=target)clearInterval(t);
   },30);
 }
