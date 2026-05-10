@@ -30,17 +30,17 @@ body {
   color: var(--text);
   font-family: 'Manrope', sans-serif;
   font-size: 15px;
-  width: 100%;
-  margin: 0;
+  max-width: 430px;
+  margin: 0 auto;
   overflow: hidden;
-  height: 100vh;
+  height: 100dvh;
   position: relative;
 }
 
 /* ── APP SHELL ── */
 .app {
   display: flex; flex-direction: column;
-  height: 100vh; overflow: hidden;
+  height: 100dvh; overflow: hidden;
 }
 
 /* ── SCREENS ── */
@@ -80,10 +80,12 @@ body {
 .screen::-webkit-scrollbar { width: 0; }
 .bottom-nav {
   display: flex; align-items: center;
-  padding: 10px 6px 20px;
+  padding: 10px 6px env(safe-area-inset-bottom, 16px);
   background: var(--dark2);
   border-top: 1px solid var(--border);
-  flex-shrink: 0; position: relative; z-index: 50;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 200;
+  max-width: 430px; margin: 0 auto;
 }
 .nav-item {
   flex: 1; display: flex; flex-direction: column;
@@ -606,25 +608,17 @@ body {
           <div class="photo-slide">
             <img class="slide-img" src="https://i.imgur.com/3KCCUkE.jpeg" style="display:block;">
           </div>
-          <div class="photo-slide" onclick="document.getElementById('fi1').click()">
-            <input type="file" id="fi1" accept="image/*" style="display:none" onchange="loadImg(this,1)">
-            <div class="slide-ph" id="ph1"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Upload foto</span></div>
-            <img id="si1" class="slide-img">
+          <div class="photo-slide">
+            <img class="slide-img" src="https://i.imgur.com/Rg6VokD.jpeg" style="display:block;">
           </div>
-          <div class="photo-slide" onclick="document.getElementById('fi2').click()">
-            <input type="file" id="fi2" accept="image/*" style="display:none" onchange="loadImg(this,2)">
-            <div class="slide-ph" id="ph2"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Upload foto</span></div>
-            <img id="si2" class="slide-img">
+          <div class="photo-slide">
+            <img class="slide-img" src="https://i.imgur.com/rUjiw1O.png" style="display:block;">
           </div>
-          <div class="photo-slide" onclick="document.getElementById('fi3').click()">
-            <input type="file" id="fi3" accept="image/*" style="display:none" onchange="loadImg(this,3)">
-            <div class="slide-ph" id="ph3"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Upload foto</span></div>
-            <img id="si3" class="slide-img">
+          <div class="photo-slide">
+            <img class="slide-img" src="https://i.imgur.com/Mn2DYWm.png" style="display:block;">
           </div>
-          <div class="photo-slide" onclick="document.getElementById('fi4').click()">
-            <input type="file" id="fi4" accept="image/*" style="display:none" onchange="loadImg(this,4)">
-            <div class="slide-ph" id="ph4"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--sub)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Upload foto</span></div>
-            <img id="si4" class="slide-img">
+          <div class="photo-slide">
+            <img class="slide-img" src="https://i.imgur.com/Dz43vcn.png" style="display:block;">
           </div>
         </div>
         <button class="slider-nav next" onclick="nextSlide()">
@@ -1102,7 +1096,7 @@ function ac(el, target, pre, suf, thousands) {
 setTimeout(()=>{
   ac(document.getElementById('sp'),710,'+','%');
   ac(document.getElementById('sw'),73,'','%');
-  ac(document.getElementById('sf'),1189,'','');
+  ac(document.getElementById('sf'),1189,'','',true);
 },300);
 </script>
 </body>
